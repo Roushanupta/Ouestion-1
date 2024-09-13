@@ -1,0 +1,42 @@
+class User:
+    def __init__(self, phone_num, available_amount):
+        self.phone_num = phone_num
+        self.available_amount = available_amount
+        self.transactions = []
+
+    def display_info(self):
+        print(f"Phone Number: {self.phone_num}")
+        print(f"Available Balance: {self.available_amount}")
+
+    def transfer_amount(self, recipient, amount):
+        if amount > self.available_amount:
+            print("Insufficient Balance!")
+            return False
+        self.available_amount -= amount
+        recipient.available_amount += amount
+        self.transactions.append({'to': recipient.phone_num, 'amount': amount})
+        recipient.transactions.append({'from': self.phone_num, 'amount': amount})
+        print(f"Transferred {amount} to {recipient.phone_num}")
+        return True
+
+    def show_transactions(self):
+        if not self.transactions:
+            print("No transactions available.")
+        for transaction in self.transactions:
+            print(transaction)
+
+
+# Sample usage
+user1 = User("1234567890", 5000)
+user2 = User("0987654321", 3000)
+
+# Log in would be based on matching phone numbers
+
+# Transfer amount
+user1.transfer_amount(user2, 1000)
+
+# Display information
+user1.display_info()
+
+# Display transaction history
+user1.show_transactions()
